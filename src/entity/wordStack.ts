@@ -6,24 +6,32 @@ export class EnglishWord {
     @PrimaryGeneratedColumn()
     id: number;
 
+    // 英文单词
     @Column()
     word: string;
 
-    @Column()
+    // 英文单词描述
+    @Column({nullable:true})
     description: string;
 
-    @Column()
+    // 例句
+    @Column({nullable:true})
     sentence: string;
 
-    @Column()
+    // 翻译
+    @Column({nullable:true})
     translate: string;
 
-    @Column()
+    // 下一次出现时间
+    @Column({nullable:true})
     nextDate: Date;
 
-    @Column()
+    // 出现次数
+    @Column({nullable:true})
     views: number;
 
-    @Column()
-    isPublished: boolean;
+    // 单词类型; 生词， 熟词
+    @Column({nullable:true})
+    wordType: boolean;
+
 }
