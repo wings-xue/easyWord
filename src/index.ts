@@ -16,6 +16,27 @@ const options: ConnectionOptions = {
 
 }
 
+function Ebbinghaus(l: number) {
+  switch (l) {
+    case 5*60:
+      return 30*60;
+    case 30*60:
+      return 12*60*60;
+    case 12*60*60:
+      return 24*60*60;
+    case 24*60*60:
+      return 2*24*60*60;
+    case 2*24*60*60:
+      return 4*24*60*60;
+    case 4*24*60*60:
+      return 7*24*60*60;
+    case 7*24*60*60:
+      return 15*24*60*60;
+    default:
+      return  5*60;
+  }
+
+}
 
 
 // create typeorm connection
