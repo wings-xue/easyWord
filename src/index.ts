@@ -18,22 +18,22 @@ const options: ConnectionOptions = {
 
 function Ebbinghaus(l: number) {
   switch (l) {
-    case 5*60:
-      return 30*60;
-    case 30*60:
-      return 12*60*60;
-    case 12*60*60:
-      return 24*60*60;
-    case 24*60*60:
-      return 2*24*60*60;
-    case 2*24*60*60:
-      return 4*24*60*60;
-    case 4*24*60*60:
-      return 7*24*60*60;
-    case 7*24*60*60:
-      return 15*24*60*60;
+    case 5 * 60:
+      return 30 * 60;
+    case 30 * 60:
+      return 12 * 60 * 60;
+    case 12 * 60 * 60:
+      return 24 * 60 * 60;
+    case 24 * 60 * 60:
+      return 2 * 24 * 60 * 60;
+    case 2 * 24 * 60 * 60:
+      return 4 * 24 * 60 * 60;
+    case 4 * 24 * 60 * 60:
+      return 7 * 24 * 60 * 60;
+    case 7 * 24 * 60 * 60:
+      return 15 * 24 * 60 * 60;
     default:
-      return  5*60;
+      return 5 * 60;
   }
 
 }
@@ -61,24 +61,33 @@ createConnection(options).then(connection => {
     englishWord.translate = req.query.translate;
     englishWord.nextDate = new Date();
     englishWord.views = 1;
-    englishWord.remember = false; 
+    englishWord.remember = false;
+    englishWord.ebbinghaus = 5 * 60;
     return Repository.save(englishWord);
   });
 
   app.get("/find", async function (req, res) {
-    return Repository.findOne();
+    return Repository.find({
+      order: {
+        nextDate: "DESC"
+      },
+      skip: 0,
+      take: 10
+    });
   });
 
 
 
   app.get("/update", async (req, res) => {
     let word = req.query.word
-    let isRemeber = req.query.remember
     let review = req.query.review
-  
-   
-    let englisWord = await Repository.findOne({word: word});
-    englisWord.nextDate = new Date()
+
+    let now = new Date()
+    let englisWord = await Repository.findOne({ word: word });
+    let ebbinghaus = englisWord.ebbinghaus;
+    let nextEbbinghaus = Ebbinghaus(ebbinghaus);
+    englisWord.nextDate = new Date(now.setSeconds(now.getSeconds() + nextEbbinghaus))
+
     if (review == "ok") {
       englisWord.remember = true;
     }
