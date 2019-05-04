@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { WebServiceService } from '../web-service.service';
 
 @Component({
   selector: 'app-home',
@@ -8,8 +9,11 @@ import { Component } from '@angular/core';
 export class HomePage {
   word: string;
   description: string;
-  constructor() {
-    this.word = 'word';
-    this.description = '';
+  constructor(private webService: WebServiceService) {}
+
+  ionViewWillEnter() {
+    this.webService.getWord().subscribe(
+      word => this.word = word);
   }
+
 }

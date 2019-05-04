@@ -63,17 +63,20 @@ createConnection(options).then(connection => {
     englishWord.views = 1;
     englishWord.remember = false;
     englishWord.ebbinghaus = 5 * 60;
-    return Repository.save(englishWord);
+    await Repository.save(englishWord);
+    console.log("save " + req.query.word + " succeed");
+    res.send({'code': 200});
   });
 
   app.get("/find", async function (req, res) {
-    return Repository.find({
+    let words = await Repository.find({
       order: {
         nextDate: "DESC"
       },
       skip: 0,
       take: 10
     });
+    res.send(words)
   });
 
 
@@ -92,8 +95,8 @@ createConnection(options).then(connection => {
       englisWord.remember = true;
     }
     await Repository.save(englisWord);
-    console.log("save " + word + "succeed");
-    res.send("000")
+    console.log("save " + word + " succeed");
+    res.send({'code': 200});
   });
 
 

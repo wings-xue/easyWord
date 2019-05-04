@@ -1,5 +1,11 @@
 {
   "name": "easywordAPP",
   "integrations": {},
-  "type": "angular"
+  "type": "angular",
+  "proxies": [
+    {
+      "path": "/find",
+      "proxyUrl": "http://127.0.0.1:3000/find"
+    }
+  ]
 }
